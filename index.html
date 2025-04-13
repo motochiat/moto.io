@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Área restrita para membros com conteúdo exclusivo">
+    <title>Área Restrita | Conteúdo Exclusivo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --whatsapp-color: #25d366;
+            --danger-color: #dc3545;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(120deg, #84fab0, #8fd3f4);
+            color: #444;
+            min-height: 100vh;
+        }
+
+        #main-content {
+            display: none;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #main-content.show {
+            opacity: 1;
+        }
+
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .card {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: none;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            background-color: #fff;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-body {
+            color: #666;
+            font-size: 1rem;
+            flex: 1;
+        }
+
+        .btn-whatsapp {
+            background-color: var(--whatsapp-color);
+            color: white;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: none;
+            padding: 10px;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1ebe5b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            margin: 5px 10px;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .img-container {
+            text-align: center;
+            flex: 1;
+            padding: 10px;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .img-container img {
+            width: 100%;
+            max-width: 400px;
+            height: 300px; /* Fixed height for consistency */
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 1s;
+            position: absolute;
+            object-fit: cover; /* Changed from contain to cover */
+        }
+
+        .img-container img.active {
+            opacity: 1;
+        }
+
+        .icon-image {
+            height: 24px;
+            margin-right: 8px;
+        }
+
+        .buy-access-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .buy-access-container img {
+            margin-right: 10px;
+            height: 30px;
+        }
+
+        .align-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .small-text {
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .card-body-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Changed from flex-start */
+             justify-content: center; /* Center vertically */
+            padding: 20px;
+             width: 50%; /* Give it some width */
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 1rem; /* Reduced margin slightly */
+        }
+
+        .form-control {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+
+        /* Main content styles */
+        .content-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .content-card {
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            height: 100%; /* Make cards in a row same height */
+             display: flex; /* Help with vertical alignment */
+             flex-direction: column; /* Stack elements vertically */
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .content-card img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .content-card .card-body {
+            padding: 15px;
+            flex-grow: 1; /* Allow body to grow */
+             display: flex;
+             flex-direction: column;
+             justify-content: space-between; /* Push button to bottom */
+        }
+
+        .content-card .card-title {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .badge-category {
+            background-color: var(--primary-color);
+            color: white;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            display: inline-block; /* Ensure badges flow correctly */
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden; /* Use visibility for better performance */
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: #0069d9;
+        }
+
+        .password-error {
+            color: var(--danger-color);
+            font-size: 0.85rem; /* Slightly larger error text */
+            margin-top: 8px; /* More space */
+            display: none;
+            min-height: 1.2em; /* Prevent layout shift */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .card {
+                flex-direction: column;
+                max-width: 95%; /* Slightly wider on small screens */
+                 padding: 15px;
+            }
+
+            .card-body-wrapper {
+                 width: 100%; /* Take full width */
+                 align-items: center; /* Center form elements */
+                 padding: 15px 0;
+            }
+
+            .img-container {
+                min-height: 200px;
+                margin-top: 20px;
+                width: 100%; /* Take full width */
+            }
+             .img-container img {
+                 max-width: 90%;
+                 height: 200px; /* Adjust height for smaller screens */
+             }
+
+            .footer-links {
+                flex-direction: column; /* Stack links vertically */
+                 align-items: center;
+            }
+
+            .footer-links a {
+                margin: 5px 0;
+            }
+
+             .content-section h2 {
+                 font-size: 1.5rem; /* Adjust heading size */
+             }
+             .display-4 {
+                 font-size: 2.5rem; /* Adjust main title size */
+             }
+        }
+
+        /* Animation for password overlay */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Accessibility focus styles */
+        a:focus, button:focus, input:focus {
+            outline: 3px solid var(--primary-color) !important; /* Ensure visibility */
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(0,123,255,.35) !important; /* Bootstrap like focus ring */
+        }
+         /* Remove default outline for elements with custom focus */
+         a, button, input {
+             outline: none;
+         }
+
+         /* Ensure sr-only works as intended */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="password-overlay" class="fade-in">
+        <div class="card">
+            <div class="card-body-wrapper">
+                <div class="card-body">
+                    <div class="card-header" tabindex="0">
+                        <i class="fas fa-lock"></i> Área Restrita aos Membros
+                    </div>
+                    <p class="small-text">Um lugar onde compartilho minhas experiências e projetos.<br>
+                    Acesso a Fotografias, PDFs, Vídeos e Conteúdos Exclusivos<br>
+                    <em>"A arte é o que eu te mostro"</em>.</p>
+
+                    <form id="passwordForm" onsubmit="event.preventDefault(); checkPassword();">
+                        <div class="form-group">
+                            <label for="password" class="sr-only">Senha de acesso</label>
+                            <input type="password" class="form-control" id="password" placeholder="Digite sua senha de acesso" required aria-describedby="passwordHelp passwordError">
+                            <div id="passwordError" class="password-error" aria-live="polite">
+                                <i class="fas fa-exclamation-circle"></i> Senha incorreta. Tente novamente.
+                            </div>
+                            <small id="passwordHelp" class="form-text text-muted">A senha é '123' para este exemplo.</small>
+                        </div>
+                        <button type="submit" class="btn btn-whatsapp btn-block">
+                            <i class="fab fa-whatsapp"></i> Acessar Conteúdo
+                        </button>
+                        <div class="buy-access-container">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='#comprar'">
+                                <i class="fas fa-shopping-cart"></i> Comprar Acesso
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="footer-links">
+                    <a href="#fotografia"><i class="fas fa-camera"></i> Fotografia</a>
+                    <a href="#conteudo-adulto"><i class="fas fa-exclamation-triangle"></i> Conteúdo +18</a>
+                    <a href="#musica"><i class="fas fa-music"></i> Curadoria Musical</a>
+                    <a href="#audiovisual"><i class="fas fa-video"></i> Audiovisual</a>
+                </div>
+            </div>
+            <div class="img-container">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimkxmf-Aqpgs6ErnQoBdGg_5fV2rFwTxeQ5_amRB7mmp8dYXtvUcFxR-CsSVoEFwmx5f1YphhXhw661L_Zjkzmqyr_gQft1Xqb7JpCakjKPoobOpocm1D1kU-82x3AkhihO3-hGdBs06LOsZzfRHhSXYT1kt-DdtAqm03B-EKcWcqyvG8TtAq9wVTjxJ4U/s1600/Captura%20de%20tela%202022-10-11%20145757.png" alt="Exemplo de fotografia artística" class="active">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhmqcv2_V7cjaRm4Zov_H6KGjf6j85EUTzyVeP29puEs700E4hNjOFmcwj6Ib0iqi_9P7Wu2KsGTMEi7ga7H8CI6JZ-aTElp9KPc3iUr874rz3iBLIuL-9Cw3R7mxz5u4Dcdqiktz5U2_kOtkS7Niun2Kd7AbAM2eZE9vF8SNc-qOHi4rfbOVpvtUWp_0qL/s831/imagem2.png" alt="Exemplo de projeto audiovisual">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiE7RqJn24xTEbPJ_EfbWTTbv8R55oFxMgI8SXYTFKaPkyk55qTpm0V43VenW6CtwQYbtQTNcV4XmG446q-WKrFEnRWdHYb9YKLr6FmL6RM3nsDNhyYz3q0egDo2QQlICjgRV7zVPw2aZWEyXWjb-VKVJ023W2RYLLwIYdnqZpQ_891wxh8XKPDW-QiVpM9/s831/imagem3.png" alt="Exemplo de curadoria musical">
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content" class="container mt-4 mb-4"> <header class="text-center mb-5">
+            <h1 class="display-4" tabindex="-1">Bem-vindo ao Conteúdo Exclusivo</h1> <p class="lead">Acesso completo a todos os materiais reservados para membros</p>
+        </header>
+
+        <section id="fotografia" class="content-section">
+            <h2><i class="fas fa-camera"></i> Fotografia Exclusiva</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4"> <div class="content-card">
+                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Show ao vivo">
+                        <div class="card-body">
+                            <div>
+                                <h5 class="card-title">Série: Retratos Urbanos</h5>
+                                <p class="card-text">Coleção completa de fotografias urbanas em preto e branco.</p>
+                                <div>
+                                    <span class="badge badge-category">Preto e Branco</span>
+                                    <span class="badge badge-category">Urbano</span>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary mt-3">Visualizar Galeria</a>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-4 mb-4">
+                    <div class="content-card">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Show musical">
+                         <div class="card-body">
+                             <div>
+                                <h5 class="card-title">Backstage: Shows Exclusivos</h5>
+                                <p class="card-text">Fotos exclusivas dos bastidores dos maiores shows.</p>
+                                <div>
+                                    <span class="badge badge-category">Backstage</span>
+                                    <span class="badge badge-category">Música</span>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary mt-3">Visualizar Galeria</a>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-4 mb-4">
+                    <div class="content-card">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Paisagem natural">
+                         <div class="card-body">
+                             <div>
+                                <h5 class="card-title">Natureza em Foco</h5>
+                                <p class="card-text">Paisagens naturais capturadas em expedições pelo mundo.</p>
+                                <div>
+                                    <span class="badge badge-category">Natureza</span>
+                                    <span class="badge badge-category">Paisagem</span>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary mt-3">Visualizar Galeria</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conteudo-adulto" class="content-section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Conteúdo +18</h2>
+            <div class="alert alert-warning">
+                <strong>Atenção:</strong> Este conteúdo é restrito a maiores de 18 anos.
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="content-card">
+                        <img src="https://images.unsplash.com/photo-1519162808019-7de1683fa2ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Conteúdo artístico sobre corpo humano">
+                        <div class="card-body">
+                            <div>
+                                <h5 class="card-title">Série: Corpo e Arte</h5>
+                                <p class="card-text">Exploração artística do corpo humano em contextos urbanos.</p>
+                            </div>
+                            <a href="javascript:void(0);" onclick="alert('Verificação de idade necessária (implementação pendente).')" class="btn btn-warning mt-3">Verificar Idade e Acessar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="content-card">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Fotografia conceitual sobre tabus">
+                        <div class="card-body">
+                           <div>
+                                <h5 class="card-title">Documentário: Tabus</h5>
+                                <p class="card-text">Discussão sobre tabus sociais através da fotografia conceitual.</p>
+                           </div>
+                            <a href="javascript:void(0);" onclick="alert('Verificação de idade necessária (implementação pendente).')" class="btn btn-warning mt-3">Verificar Idade e Acessar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="musica" class="content-section">
+            <h2><i class="fas fa-music"></i> Curadoria Musical</h2>
+             <div class="content-card mb-0"> <div class="card-body">
+                    <h5 class="card-title">Playlists Exclusivas</h5>
+                    <p class="card-text">Acesso a playlists curadas especialmente para membros.</p>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light h-100"> <div class="card-body d-flex flex-column justify-content-between"> <div>
+                                        <h6><i class="fas fa-compact-disc"></i> Indie Underground</h6>
+                                        <p>Bandas independentes que você precisa conhecer</p>
+                                    </div>
+                                    <a href="#" class="btn btn-sm btn-outline-primary mt-2">Ouvir no Spotify</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light h-100">
+                                 <div class="card-body d-flex flex-column justify-content-between">
+                                     <div>
+                                         <h6><i class="fas fa-guitar"></i> Rock Clássico</h6>
+                                         <p>Os melhores clássicos remasterizados</p>
+                                     </div>
+                                     <a href="#" class="btn btn-sm btn-outline-primary mt-2">Ouvir no Spotify</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-light h-100">
+                                 <div class="card-body d-flex flex-column justify-content-between">
+                                     <div>
+                                        <h6><i class="fas fa-headphones"></i> Eletrônica Experimental</h6>
+                                        <p>Novas fronteiras da música eletrônica</p>
+                                     </div>
+                                    <a href="#" class="btn btn-sm btn-outline-primary mt-2">Ouvir no Spotify</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="audiovisual" class="content-section">
+            <h2><i class="fas fa-video"></i> Projetos Audiovisuais</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="content-card">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Documentário Making Of" allowfullscreen></iframe>
+                        </div>
+                        <div class="card-body">
+                           <div>
+                                <h5 class="card-title">Documentário: Por Trás das Câmeras</h5>
+                                <p class="card-text">Making of exclusivo dos principais trabalhos audiovisuais.</p>
+                           </div>
+                            <a href="#" class="btn btn-primary mt-3">Assistir Completo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="content-card">
+                        <div class="embed-responsive embed-responsive-16by9">
+                             <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/L_LUpnjgPso" title="Curta Metragem O Olhar" allowfullscreen></iframe>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h5 class="card-title">Curta-metragem: "O Olhar"</h5>
+                                <p class="card-text">Premiado curta-metragem sobre percepção visual.</p>
+                            </div>
+                            <a href="#" class="btn btn-primary mt-3">Assistir Completo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comprar" class="content-section">
+            <h2><i class="fas fa-shopping-cart"></i> Assinatura Premium</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4"> <div class="card text-center h-100">
+                        <div class="card-header">
+                            <h4>Básico</h4>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                           <div>
+                                <h3 class="card-title">R$ 19,90 <small class="text-muted">/mês</small></h3>
+                                <ul class="list-unstyled mt-3 mb-4 text-left pl-4">
+                                    <li><i class="fas fa-check text-success mr-2"></i>Acesso a fotos selecionadas</li>
+                                    <li><i class="fas fa-check text-success mr-2"></i>1 playlist exclusiva</li>
+                                    <li><i class="fas fa-times text-danger mr-2"></i>Conteúdo +18</li>
+                                    <li><i class="fas fa-times text-danger mr-2"></i>Vídeos exclusivos</li>
+                                </ul>
+                           </div>
+                            <button class="btn btn-outline-primary btn-block mt-auto">Assinar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card text-center border-primary h-100 shadow"> <div class="card-header bg-primary text-white">
+                            <h4>Premium <i class="fas fa-star"></i></h4>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                           <div>
+                                <h3 class="card-title">R$ 39,90 <small class="text-muted">/mês</small></h3>
+                                <ul class="list-unstyled mt-3 mb-4 text-left pl-4">
+                                    <li><i class="fas fa-check text-success mr-2"></i>Acesso completo às fotos</li>
+                                    <li><i class="fas fa-check text-success mr-2"></i>Todas as playlists</li>
+                                    <li><i class="fas fa-check text-success mr-2"></i>Conteúdo +18</li>
+                                    <li><i class="fas fa-check text-success mr-2"></i>Vídeos exclusivos</li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-primary btn-block mt-auto">Assinar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4"> <div class="card text-center h-100">
+                        <div class="card-header">
+                            <h4>Anual</h4>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                           <div>
+                                <h3 class="card-title">R$ 399,90 <small class="text-muted">/ano</small></h3>
+                                <p class="text-success font-weight-bold">Economize 16%</p>
+                                <ul class="list-unstyled mt-3 mb-4 text-left pl-4">
+                                    <li><i class="fas fa-check text-success mr-2"></i>Todos os benefícios Premium</li>
+                                    <li><i class="fas fa-check text-success mr-2"></i>Conteúdo antecipado</li>
+                                    <li><i class="fas fa-check text-success mr-2"></i>E-book exclusivo</li>
+                                    <li><i class="fas fa-check text-success mr-2"></i>Descontos em workshops</li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-outline-primary btn-block mt-auto">Assinar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-4 mt-4 bg-light rounded">
+            <p class="mb-2">© <span id="currentYear"></span> Conteúdo Exclusivo. Todos os direitos reservados.</p>
+            <div class="footer-links justify-content-center"> <a href="#"><i class="fas fa-envelope"></i> Contato</a>
+                <a href="#"><i class="fas fa-question-circle"></i> Ajuda</a>
+                <a href="#"><i class="fas fa-shield-alt"></i> Privacidade</a>
+                <a href="#"><i class="fas fa-file-alt"></i> Termos</a>
+            </div>
+        </footer>
+    </div>
+
+    <div class="back-to-top" id="backToTop" aria-label="Voltar ao topo" role="button">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Password check function
+        function checkPassword() {
+            var passwordInput = document.getElementById('password');
+            var password = passwordInput.value;
+            var errorElement = document.getElementById('passwordError');
+            var mainContentH1 = document.querySelector('#main-content h1');
+
+            if (password === '123') {
+                // Correct password
+                errorElement.style.display = 'none';
+                passwordInput.removeAttribute('aria-invalid'); // Remove invalid state if previously set
+
+                var overlay = document.getElementById('password-overlay');
+                overlay.style.opacity = '0';
+
+                setTimeout(function() {
+                    overlay.style.display = 'none';
+
+                    var mainContent = document.getElementById('main-content');
+                    mainContent.style.display = 'block';
+
+                    // Short delay before adding 'show' for fade-in transition
+                    setTimeout(function() {
+                        mainContent.classList.add('show');
+                        // Set focus on first heading for screen readers AFTER content is visible
+                        if (mainContentH1) {
+                             // tabindex was added in HTML, no need to set it here
+                             mainContentH1.focus();
+                        }
+                    }, 50); // Small delay allows display:block to render first
+
+                }, 500); // Matches CSS transition duration
+
+            } else if (password === '321') {
+                // Redirect password
+                window.location.href = 'https://moschiat.com/it';
+            } else {
+                // Wrong password
+                errorElement.style.display = 'block';
+                passwordInput.setAttribute('aria-invalid', 'true'); // Mark input as invalid
+                passwordInput.focus(); // Set focus back to the input
+                passwordInput.select(); // Select text for easy correction
+            }
+        }
+
+        // Image slider
+        var slideIndex = 0;
+        var slideInterval; // Store interval ID
+        var slides = document.querySelectorAll('.img-container img');
+
+        function showSlides() {
+             if (slides.length === 0) return; // No images
+
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+            slides[slideIndex - 1].classList.add('active');
+        }
+
+        function startSlideshow() {
+            if (slides.length > 1) {
+                 stopSlideshow(); // Clear any existing interval
+                 showSlides(); // Show first slide immediately
+                 slideInterval = setInterval(showSlides, 3000); // Change image every 3 seconds
+            } else if (slides.length === 1) {
+                 slides[0].classList.add('active'); // Show the single image
+            }
+        }
+
+        function stopSlideshow() {
+             clearInterval(slideInterval);
+        }
+
+        // Back to top button
+        var backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Allow form submission with Enter key (already handled by form submit)
+        // This listener can be removed if using standard form submission trigger
+        // document.getElementById('password').addEventListener('keypress', function(e) {
+        //     if (e.key === 'Enter') {
+        //          e.preventDefault(); // Prevent default if needed, but form submit does this
+        //          checkPassword();
+        //      }
+        // });
+
+        // Update footer year dynamically
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Initial Setup on Load
+        window.addEventListener('load', function() {
+            // Focus on password field
+            document.getElementById('password').focus();
+            // Start the slideshow
+            startSlideshow();
+        });
+
+         // Stop slideshow if overlay is hidden (password entered correctly)
+         // Using MutationObserver is more robust than relying on checkPassword function call
+         var overlayObserver = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'style' && document.getElementById('password-overlay').style.display === 'none') {
+                    stopSlideshow();
+                     overlayObserver.disconnect(); // Stop observing once hidden
+                 }
+            });
+        });
+         overlayObserver.observe(document.getElementById('password-overlay'), { attributes: true });
+
+
+    </script>
+</body>
+</html>
