@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Área restrita para membros com conteúdo exclusivo">
-    <title>Área Restrita | Conteúdo Exclusivo</title>
+    <meta name="description" content="Área restrita para membros com conteúdo exclusivo de arte, fotografia e música">
+    <title>MOSCHIAT | Conteúdo Artístico Exclusivo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
             --success-color: #28a745;
             --whatsapp-color: #25d366;
             --danger-color: #dc3545;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(120deg, #84fab0, #8fd3f4);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #444;
             min-height: 100vh;
         }
@@ -31,27 +33,28 @@
             text-align: center;
             margin-bottom: 2rem;
             overflow: hidden;
+            padding: 1rem;
         }
         
         .title-animation h1 {
             font-family: 'Chakra Petch', sans-serif;
             font-size: 4rem;
             font-weight: 700;
-            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-            background-size: 400% 400%;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: gradient 8s ease infinite, flicker 1.5s infinite alternate;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+            animation: gradient 8s ease infinite;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
             letter-spacing: -2px;
             line-height: 1.1;
+            margin-bottom: 0.5rem;
         }
         
         .title-animation .subtitle {
             font-family: 'Noto Sans Thai', sans-serif;
             font-size: 1.8rem;
-            color: #333;
+            color: var(--dark-color);
             margin-top: -0.5rem;
             animation: fadeIn 2s ease-in-out;
             font-weight: 700;
@@ -63,23 +66,6 @@
             100% { background-position: 0% 50%; }
         }
         
-        @keyframes flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-                text-shadow: 
-                    0 0 10px rgba(255,255,255,0.3),
-                    0 0 20px rgba(255,255,255,0.2),
-                    0 0 30px rgba(255,0,0,0.3),
-                    0 0 40px rgba(255,0,0,0.2),
-                    0 0 70px rgba(255,0,0,0.2),
-                    0 0 80px rgba(255,0,0,0.2),
-                    0 0 100px rgba(255,0,0,0.2),
-                    0 0 150px rgba(255,0,0,0.2);
-            }
-            20%, 24%, 55% {        
-                text-shadow: none;
-            }
-        }
-        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -87,23 +73,26 @@
 
         /* Navbar */
         .custom-navbar {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 0.5rem 0;
+            padding: 0.5rem 1rem;
             margin-bottom: 2rem;
         }
         
-        .custom-navbar .navbar-nav {
-            margin: 0 auto;
+        .custom-navbar .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-family: 'Chakra Petch', sans-serif;
         }
         
         .custom-navbar .nav-link {
             font-weight: 600;
-            color: #333;
-            margin: 0 15px;
+            color: var(--dark-color);
+            margin: 0 10px;
             position: relative;
             transition: all 0.3s;
+            padding: 0.5rem 1rem;
         }
         
         .custom-navbar .nav-link:hover {
@@ -125,6 +114,7 @@
             width: 100%;
         }
 
+        /* Main content transition */
         #main-content {
             display: none;
             padding: 20px;
@@ -136,6 +126,7 @@
             opacity: 1;
         }
 
+        /* Password overlay */
         #password-overlay {
             position: fixed;
             top: 0;
@@ -150,31 +141,32 @@
             transition: opacity 0.5s ease-in-out;
         }
 
-        .card {
-            max-width: 800px;
+        .auth-card {
+            max-width: 900px;
             margin: auto;
-            padding: 20px;
+            padding: 30px;
             border: none;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             background-color: #fff;
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             border-radius: 15px;
             overflow: hidden;
         }
 
         .card-header {
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: var(--primary-color);
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Chakra Petch', sans-serif;
         }
 
         .card-body {
-            color: #666;
+            color: #555;
             font-size: 1rem;
             flex: 1;
         }
@@ -183,17 +175,19 @@
             background-color: var(--whatsapp-color);
             color: white;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-size: 1rem;
             transition: all 0.3s;
             border: none;
-            padding: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
         }
 
         .btn-whatsapp:hover {
             background-color: #1ebe5b;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
         }
 
         .footer-links {
@@ -202,40 +196,46 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            gap: 15px;
         }
 
         .footer-links a {
-            margin: 5px 10px;
             color: var(--primary-color);
             text-decoration: none;
             transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
         }
 
         .footer-links a:hover {
-            color: #0056b3;
-            text-decoration: underline;
+            color: #4a00e0;
+            text-decoration: none;
         }
 
         .img-container {
             text-align: center;
             flex: 1;
-            padding: 10px;
+            padding: 20px;
             position: relative;
-            min-height: 300px;
+            min-height: 350px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
         }
 
         .img-container img {
             width: 100%;
-            max-width: 400px;
-            height: 300px; /* Fixed height for consistency */
+            max-width: 450px;
+            height: auto;
+            max-height: 300px;
             border-radius: 8px;
             opacity: 0;
             transition: opacity 1s;
             position: absolute;
-            object-fit: cover; /* Changed from contain to cover */
+            object-fit: contain;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .img-container img.active {
@@ -254,36 +254,26 @@
             margin-top: 15px;
         }
 
-        .buy-access-container img {
-            margin-right: 10px;
-            height: 30px;
-        }
-
-        .align-center {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         .small-text {
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-align: center;
             margin-bottom: 1.5rem;
-            color: var(--secondary-color);
+            color: #666;
+            line-height: 1.6;
         }
 
         .card-body-wrapper {
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Changed from flex-start */
-             justify-content: center; /* Center vertically */
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-             width: 50%; /* Give it some width */
+            width: 50%;
         }
 
         .form-group {
             width: 100%;
-            margin-bottom: 1rem; /* Reduced margin slightly */
+            margin-bottom: 1.5rem;
         }
 
         .form-control {
@@ -291,76 +281,91 @@
             border-radius: 8px;
             border: 1px solid #ced4da;
             transition: border-color 0.3s, box-shadow 0.3s;
+            font-size: 1rem;
         }
 
         .form-control:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+            box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25);
         }
 
         /* Main content styles */
         .content-section {
             background-color: white;
-            border-radius: 10px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
         .content-section h2 {
             color: var(--primary-color);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
+            font-family: 'Chakra Petch', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .content-card {
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 0.3s;
             margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            height: 100%; /* Make cards in a row same height */
-             display: flex; /* Help with vertical alignment */
-             flex-direction: column; /* Stack elements vertically */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .content-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         }
 
         .content-card img {
-            height: 200px;
+            height: 220px;
             object-fit: cover;
             width: 100%;
+            transition: transform 0.5s;
+        }
+
+        .content-card:hover img {
+            transform: scale(1.03);
         }
 
         .content-card .card-body {
-            padding: 15px;
-            flex-grow: 1; /* Allow body to grow */
-             display: flex;
-             flex-direction: column;
-             justify-content: space-between; /* Push button to bottom */
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .content-card .card-title {
             font-weight: bold;
             color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.25rem;
         }
 
         .badge-category {
             background-color: var(--primary-color);
             color: white;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            display: inline-block; /* Ensure badges flow correctly */
+            margin-right: 8px;
+            margin-bottom: 8px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
 
         .back-to-top {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             width: 50px;
             height: 50px;
             background-color: var(--primary-color);
@@ -371,9 +376,11 @@
             justify-content: center;
             cursor: pointer;
             opacity: 0;
-            visibility: hidden; /* Use visibility for better performance */
-            transition: opacity 0.3s, visibility 0.3s;
+            visibility: hidden;
+            transition: all 0.3s;
             z-index: 999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: none;
         }
 
         .back-to-top.show {
@@ -382,15 +389,19 @@
         }
 
         .back-to-top:hover {
-            background-color: #0069d9;
+            background-color: #4a00e0;
+            transform: translateY(-3px);
         }
 
         .password-error {
             color: var(--danger-color);
-            font-size: 0.85rem; /* Slightly larger error text */
-            margin-top: 8px; /* More space */
+            font-size: 0.9rem;
+            margin-top: 8px;
             display: none;
-            min-height: 1.2em; /* Prevent layout shift */
+            min-height: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         /* Carousel Styles */
@@ -398,7 +409,7 @@
             margin: 2rem 0;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
         
         .custom-carousel .carousel-inner {
@@ -408,6 +419,7 @@
         .custom-carousel .carousel-item img {
             height: 500px;
             object-fit: cover;
+            filter: brightness(0.8);
         }
         
         .custom-carousel .carousel-caption {
@@ -415,69 +427,170 @@
             border-radius: 10px;
             padding: 20px;
             bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 700px;
+        }
+        
+        .custom-carousel .carousel-caption h5 {
+            font-size: 1.8rem;
+            font-weight: bold;
         }
         
         .custom-carousel .carousel-control-prev,
         .custom-carousel .carousel-control-next {
             width: 5%;
+            opacity: 0.8;
+        }
+
+        /* Pricing cards */
+        .pricing-card {
+            transition: all 0.3s;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .pricing-card .card-header {
+            padding: 1.5rem;
+            border-bottom: none;
+        }
+
+        .pricing-card .card-body {
+            padding: 2rem;
+        }
+
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .pricing-card .list-unstyled li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Age verification modal */
+        .age-verification {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .age-verification-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: center;
         }
 
         /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .auth-card {
+                flex-direction: column;
+                max-width: 600px;
+            }
+            
+            .card-body-wrapper {
+                width: 100%;
+                padding: 20px 0;
+            }
+            
+            .img-container {
+                min-height: 250px;
+                margin-top: 20px;
+                width: 100%;
+            }
+            
+            .custom-carousel .carousel-item img {
+                height: 400px;
+            }
+        }
+
         @media (max-width: 768px) {
             .title-animation h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
             
             .title-animation .subtitle {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
             }
             
-            .card {
-                flex-direction: column;
-                max-width: 95%; /* Slightly wider on small screens */
-                 padding: 15px;
-            }
-
-            .card-body-wrapper {
-                 width: 100%; /* Take full width */
-                 align-items: center; /* Center form elements */
-                 padding: 15px 0;
+            .auth-card {
+                padding: 20px;
+                max-width: 95%;
             }
 
             .img-container {
                 min-height: 200px;
-                margin-top: 20px;
-                width: 100%; /* Take full width */
             }
-             .img-container img {
-                 max-width: 90%;
-                 height: 200px; /* Adjust height for smaller screens */
-             }
+            
+            .img-container img {
+                max-width: 90%;
+            }
 
+            .custom-carousel .carousel-item img {
+                height: 300px;
+            }
+            
+            .custom-carousel .carousel-caption {
+                bottom: 20px;
+                padding: 15px;
+                width: 90%;
+            }
+            
+            .custom-carousel .carousel-caption h5 {
+                font-size: 1.4rem;
+            }
+            
+            .content-section {
+                padding: 20px;
+            }
+            
+            .content-card img {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .title-animation h1 {
+                font-size: 2.2rem;
+            }
+            
             .footer-links {
-                flex-direction: column; /* Stack links vertically */
-                 align-items: center;
+                flex-direction: column;
+                gap: 10px;
             }
-
-            .footer-links a {
-                margin: 5px 0;
+            
+            .custom-carousel .carousel-caption h5 {
+                font-size: 1.2rem;
             }
-
-             .content-section h2 {
-                 font-size: 1.5rem; /* Adjust heading size */
-             }
-             .display-4 {
-                 font-size: 2.5rem; /* Adjust main title size */
-             }
-             
-             .custom-carousel .carousel-item img {
-                 height: 300px;
-             }
-             
-             .custom-carousel .carousel-caption {
-                 bottom: 20px;
-                 padding: 10px;
-             }
+            
+            .custom-carousel .carousel-caption p {
+                font-size: 0.9rem;
+                display: none;
+            }
+            
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                bottom: 20px;
+                right: 20px;
+            }
         }
 
         /* Animation for password overlay */
@@ -492,16 +605,17 @@
 
         /* Accessibility focus styles */
         a:focus, button:focus, input:focus {
-            outline: 3px solid var(--primary-color) !important; /* Ensure visibility */
+            outline: 3px solid var(--primary-color) !important;
             outline-offset: 2px;
-            box-shadow: 0 0 0 3px rgba(0,123,255,.35) !important; /* Bootstrap like focus ring */
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.35) !important;
         }
-         /* Remove default outline for elements with custom focus */
-         a, button, input {
-             outline: none;
-         }
 
-         /* Ensure sr-only works as intended */
+        /* Remove default outline for elements with custom focus */
+        a, button, input {
+            outline: none;
+        }
+
+        /* Ensure sr-only works as intended */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -513,59 +627,124 @@
             white-space: nowrap;
             border: 0;
         }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a00e0;
+        }
     </style>
 </head>
 <body>
+    <!-- Password Overlay -->
     <div id="password-overlay" class="fade-in">
-        <div class="card">
+        <div class="auth-card">
             <div class="card-body-wrapper">
                 <div class="card-body">
                     <div class="card-header" tabindex="0">
-                        MOSCHIAT, te mostrando o que voce quer
+                        MOSCHIAT | Área Exclusiva
                     </div>
-                    <div class="img-container">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimkxmf-Aqpgs6ErnQoBdGg_5fV2rFwTxeQ5_amRB7mmp8dYXtvUcFxR-CsSVoEFwmx5f1YphhXhw661L_Zjkzmqyr_gQft1Xqb7JpCakjKPoobOpocm1D1kU-82x3AkhihO3-hGdBs06LOsZzfRHhSXYT1kt-DdtAqm03B-EKcWcqyvG8TtAq9wVTjxJ4U/s1600/Captura%20de%20tela%202022-10-11%20145757.png" alt="Exemplo de fotografia artística" class="active">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhmqcv2_V7cjaRm4Zov_H6KGjf6j85EUTzyVeP29puEs700E4hNjOFmcwj6Ib0iqi_9P7Wu2KsGTMEi7ga7H8CI6JZ-aTElp9KPc3iUr874rz3iBLIuL-9Cw3R7mxz5u4Dcdqiktz5U2_kOtkS7Niun2Kd7AbAM2eZE9vF8SNc-qOHi4rfbOVpvtUWp_0qL/s831/imagem2.png" alt="Exemplo de projeto audiovisual">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiE7RqJn24xTEbPJ_EfbWTTbv8R55oFxMgI8SXYTFKaPkyk55qTpm0V43VenW6CtwQYbtQTNcV4XmG446q-WKrFEnRWdHYb9YKLr6FmL6RM3nsDNhyYz3q0egDo2QQlICjgRV7zVPw2aZWEyXWjb-VKVJ023W2RYLLwIYdnqZpQ_891wxh8XKPDW-QiVpM9/s831/imagem3.png" alt="Exemplo de curadoria musical">
-                    </div>
-                    <p class="small-text">Um lugar onde compartilho minhas experiências e projetos.<br>
-                    Acesso a Fotografias, PDFs, Vídeos e Conteúdos Exclusivos<br>
-                    <em>"A arte é o que eu te mostro"</em>.</p>
+                    <p class="small-text">Um espaço dedicado à arte visual, poesia e criação audiovisual.<br>
+                    Acesso a Fotografias, Poemas, Vídeos e Conteúdos Exclusivos<br>
+                    <em>"A arte é a expressão mais pura da alma"</em>.</p>
 
                     <form id="passwordForm" onsubmit="event.preventDefault(); checkPassword();">
                         <div class="form-group">
                             <label for="password" class="sr-only">Senha de acesso</label>
                             <input type="password" class="form-control" id="password" placeholder="Digite sua senha de acesso" required aria-describedby="passwordHelp passwordError">
                             <div id="passwordError" class="password-error" aria-live="polite">
-                                <i class="fas fa-exclamation-circle"></i>Senha incorreta. Tente novamente.
+                                <i class="fas fa-exclamation-circle"></i> Senha incorreta. Tente novamente.
                             </div>
-                            <small id="passwordHelp" class="form-text text-muted">Senha personalizada para cada cliente</small>
+                            <small id="passwordHelp" class="form-text text-muted">Senha personalizada fornecida para cada cliente</small>
                         </div>
-                        <button type="submit" class="btn btn-whatsapp btn-block">
+                        <button type="submit" class="btn btn-whatsapp">
                             <i class="fab fa-whatsapp"></i> Acessar Conteúdo
                         </button>
                         <div class="buy-access-container">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='#comprar'">
-                                </i>Comprar Acesso
+                            <button type="button" class="btn btn-outline-primary mt-3" onclick="window.location.href='#comprar'">
+                                <i class="fas fa-ticket-alt"></i> Comprar Acesso
                             </button>
                         </div>
                     </form>
+                    
+                    <div class="footer-links mt-4">
+                        <a href="#"><i class="fas fa-question-circle"></i> Ajuda</a>
+                        <a href="#"><i class="fas fa-envelope"></i> Contato</a>
+                        <a href="#"><i class="fas fa-lock"></i> Privacidade</a>
+                    </div>
                 </div>
-                
             </div>
             
+            <div class="img-container">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimkxmf-Aqpgs6ErnQoBdGg_5fV2rFwTxeQ5_amRB7mmp8dYXtvUcFxR-CsSVoEFwmx5f1YphhXhw661L_Zjkzmqyr_gQft1Xqb7JpCakjKPoobOpocm1D1kU-82x3AkhihO3-hGdBs06LOsZzfRHhSXYT1kt-DdtAqm03B-EKcWcqyvG8TtAq9wVTjxJ4U/s1600/Captura%20de%20tela%202022-10-11%20145757.png" alt="Exemplo de fotografia artística" class="active">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhmqcv2_V7cjaRm4Zov_H6KGjf6j85EUTzyVeP29puEs700E4hNjOFmcwj6Ib0iqi_9P7Wu2KsGTMEi7ga7H8CI6JZ-aTElp9KPc3iUr874rz3iBLIuL-9Cw3R7mxz5u4Dcdqiktz5U2_kOtkS7Niun2Kd7AbAM2eZE9vF8SNc-qOHi4rfbOVpvtUWp_0qL/s831/imagem2.png" alt="Exemplo de projeto audiovisual">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiE7RqJn24xTEbPJ_EfbWTTbv8R55oFxMgI8SXYTFKaPkyk55qTpm0V43VenW6CtwQYbtQTNcV4XmG446q-WKrFEnRWdHYb9YKLr6FmL6RM3nsDNhyYz3q0egDo2QQlICjgRV7zVPw2aZWEyXWjb-VKVJ023W2RYLLwIYdnqZpQ_891wxh8XKPDW-QiVpM9/s831/imagem3.png" alt="Exemplo de curadoria musical">
+            </div>
         </div>
     </div>
 
+    <!-- Age Verification Modal -->
+    <div id="ageVerification" class="age-verification">
+        <div class="age-verification-content">
+            <h3><i class="fas fa-exclamation-triangle text-warning"></i> Verificação de Idade</h3>
+            <p>Este conteúdo é restrito a maiores de 18 anos. Por favor, confirme sua idade:</p>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <button class="btn btn-success" onclick="verifyAge(true)">Sou maior de 18 anos</button>
+                <button class="btn btn-danger" onclick="verifyAge(false)">Sou menor de idade</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (hidden until password is entered) -->
     <div id="main-content" class="container mt-4 mb-4">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg custom-navbar rounded mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">MOSCHIAT</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#fotografia"><i class="fas fa-camera"></i> Fotografia</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#conteudo-adulto"><i class="fas fa-book"></i> Poemas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#musica"><i class="fas fa-music"></i> Música</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#audiovisual"><i class="fas fa-video"></i> Audiovisual</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#comprar"><i class="fas fa-ticket-alt"></i> Assinatura</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
         <!-- Title Animation -->
         <div class="title-animation">
             <h1>MOSCHIAT</h1>
-            <div class="subtitle">UNAPOLOGETIC</div>
+            <div class="subtitle">ARTE • FOTOGRAFIA • POESIA</div>
         </div>
         
-       
-        <!-- Bootstrap 5 Carousel -->
+        <!-- Main Carousel -->
         <div id="mainCarousel" class="carousel slide custom-carousel" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -574,345 +753,391 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJNvDeNClsXSJwzBPrloFfZaPh8U-Yi2x2n8EKUKDeyDTX0_jW6cW1qUG1WfOXUrrjsSHDCiBhKL-63KQX6mk5hoQ8L4kfKaAGK5I3KdWF6QAUdos5FFGN2Uj8MLITQPM7MsR0OjALRlq83PKAjMOHlK7QqOAdJKjTPBUNV2i0j23FHQFzqOZCpbjq8iOc/s1600/11w.jpg" class="d-block w-100" alt="Slide 1">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJNvDeNClsXSJwzBPrloFfZaPh8U-Yi2x2n8EKUKDeyDTX0_jW6cW1qUG1WfOXUrrjsSHDCiBhKL-63KQX6mk5hoQ8L4kfKaAGK5I3KdWF6QAUdos5FFGN2Uj8MLITQPM7MsR0OjALRlq83PKAjMOHlK7QqOAdJKjTPBUNV2i0j23FHQFzqOZCpbjq8iOc/s1600/11w.jpg" class="d-block w-100" alt="Exposição de fotografia artística">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>Fotografia Artística</h5>
-                        <p>Coleção exclusiva de trabalhos visuais</p>
+                        <h5>Exposição "Fragmentos Urbanos"</h5>
+                        <p>Coleção exclusiva de trabalhos visuais capturados nas ruas de metrópoles ao redor do mundo</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyjIb-pBl6yDKGfuxcIhvwQ97I05mwyYkGgjzHEBqQ2iywT7BAufPPjlahwBmlaWyPG98jovpM2QhRJMYweSHU8Pmls4d9X1k3MUsvbavxfcBrNNAg7R-zbBy23m7ErFJhFwE6g9Ty2_92wniAr5VIwjrM0F_YL40DLOa0TM7ozjItrvrfyloSYKjWIAyU/s1600/13w.png" class="d-block w-100" alt="Slide 2">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyjIb-pBl6yDKGfuxcIhvwQ97I05mwyYkGgjzHEBqQ2iywT7BAufPPjlahwBmlaWyPG98jovpM2QhRJMYweSHU8Pmls4d9X1k3MUsvbavxfcBrNNAg7R-zbBy23m7ErFJhFwE6g9Ty2_92wniAr5VIwjrM0F_YL40DLOa0TM7ozjItrvrfyloSYKjWIAyU/s1600/13w.png" class="d-block w-100" alt="Projeto audiovisual experimental">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>Projetos Audiovisuais</h5>
-                        <p>Explorando novas fronteiras da criação</p>
+                        <h5>Projeto "Luz e Movimento"</h5>
+                        <p>Explorando novas fronteiras da criação audiovisual através de técnicas experimentais</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJNvDeNClsXSJwzBPrloFfZaPh8U-Yi2x2n8EKUKDeyDTX0_jW6cW1qUG1WfOXUrrjsSHDCiBhKL-63KQX6mk5hoQ8L4kfKaAGK5I3KdWF6QAUdos5FFGN2Uj8MLITQPM7MsR0OjALRlq83PKAjMOHlK7QqOAdJKjTPBUNV2i0j23FHQFzqOZCpbjq8iOc/s1600/11w.jpg" class="d-block w-100" alt="Slide 3">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJNvDeNClsXSJwzBPrloFfZaPh8U-Yi2x2n8EKUKDeyDTX0_jW6cW1qUG1WfOXUrrjsSHDCiBhKL-63KQX6mk5hoQ8L4kfKaAGK5I3KdWF6QAUdos5FFGN2Uj8MLITQPM7MsR0OjALRlq83PKAjMOHlK7QqOAdJKjTPBUNV2i0j23FHQFzqOZCpbjq8iOc/s1600/11w.jpg" class="d-block w-100" alt="Sessão de fotos conceitual">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>Curadoria Musical</h5>
-                        <p>Descubra sons que inspiram</p>
+                        <h5>Série "Metamorfose"</h5>
+                        <p>Estudo visual sobre transformação e identidade através da fotografia conceitual</p>
                     </div>
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
+                <span class="visually-hidden">Anterior</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
+                <span class="visually-hidden">Próximo</span>
             </button>
         </div>
 
+        <!-- Photography Section -->
         <section id="fotografia" class="content-section">
-            <h2><i class="fas fa-camera"></i> Galerias</h2>
+            <h2><i class="fas fa-camera"></i> Galerias Fotográficas</h2>
+            <p class="mb-4">Explore coleções exclusivas de trabalhos visuais, desde retratos intimistas até paisagens urbanas vibrantes.</p>
             <div class="row">
-                <div class="col-md-4 mb-4"> <div class="content-card">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEMPwEi1sIZv-5HrT4b6bXmxcJzch9kl23AnBu6GtC8vz2-t0jaZEpNBcAgIRVv6OpGxWc_uoDIDykUNiykBeAKMME_XJlOil24y1oXkMhJZog02dHwgEPpaZcWK5aPM9WQE3vMSjtXGQeQP3jDpWZSVYPehxhXINf57BsZjFHdlyw8jDN-e_N4IXLN3lT/s1600/1.png" class="card-img-top" alt="Show ao vivo">
+                <div class="col-md-4 mb-4">
+                    <div class="content-card">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEMPwEi1sIZv-5HrT4b6bXmxcJzch9kl23AnBu6GtC8vz2-t0jaZEpNBcAgIRVv6OpGxWc_uoDIDykUNiykBeAKMME_XJlOil24y1oXkMhJZog02dHwgEPpaZcWK5aPM9WQE3vMSjtXGQeQP3jDpWZSVYPehxhXINf57BsZjFHdlyw8jDN-e_N4IXLN3lT/s1600/1.png" class="card-img-top" alt="Série Retratos Urbanos">
                         <div class="card-body">
                             <div>
                                 <h5 class="card-title">Série: Retratos Urbanos</h5>
-                                <p class="card-text">Coleção completa de fotografias urbanas em preto e branco.</p>
+                                <p class="card-text">Coleção completa de fotografias urbanas em preto e branco que capturam a essência da vida nas grandes cidades, com ênfase em contrastes e texturas.</p>
                                 <div>
                                     <span class="badge badge-category">Preto e Branco</span>
                                     <span class="badge badge-category">Urbano</span>
+                                    <span class="badge badge-category">2019-2021</span>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-primary mt-3">Visualizar Galeria</a>
+                            <a href="#" class="btn btn-primary mt-3">Visualizar Galeria (24 fotos)</a>
                         </div>
                     </div>
                 </div>
-                 <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4">
                     <div class="content-card">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikE9Tc_3r5Pw0WH6dxMdpC1bUHKzRLqbcEsvnuHJe0wjDXN8-nlXQQ6yy9ZbXlsam9aVqoT9vNOpz-4aEgdhVZAnwkQtp6Sww8vzC0-FAnAIpSLOTPSJyLXelOQpFgPplm2GFYJnckaRsp8bnmdKFDRV8hAkUocWvTusubs_bW8oTRTYDy4hgVOkA8bZRb/s1600/2.png" class="card-img-top" alt="Show musical">
-                         <div class="card-body">
-                             <div>
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikE9Tc_3r5Pw0WH6dxMdpC1bUHKzRLqbcEsvnuHJe0wjDXN8-nlXQQ6yy9ZbXlsam9aVqoT9vNOpz-4aEgdhVZAnwkQtp6Sww8vzC0-FAnAIpSLOTPSJyLXelOQpFgPplm2GFYJnckaRsp8bnmdKFDRV8hAkUocWvTusubs_bW8oTRTYDy4hgVOkA8bZRb/s1600/2.png" class="card-img-top" alt="Backstage de shows">
+                        <div class="card-body">
+                            <div>
                                 <h5 class="card-title">Backstage: Shows Exclusivos</h5>
-                                <p class="card-text">Fotos exclusivas dos bastidores dos maiores shows.</p>
+                                <p class="card-text">Registro íntimo dos bastidores dos maiores festivais de música, capturando momentos autênticos entre artistas e equipe técnica.</p>
                                 <div>
                                     <span class="badge badge-category">Backstage</span>
                                     <span class="badge badge-category">Música</span>
+                                    <span class="badge badge-category">2022-2023</span>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-primary mt-3">Visualizar Galeria</a>
+                            <a href="#" class="btn btn-primary mt-3">Visualizar Galeria (18 fotos)</a>
                         </div>
                     </div>
                 </div>
-                 <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4">
                     <div class="content-card">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZrjOUVMuimbHz87edho2J5rWkXeG3lQSxBPC86SoRO5IIKwOTw6re0sxFhwHWv83EYP_V8WXHwQpGNxmo7VOkczhJ0csQAiksryauXflrc3Fxdu0NCRgPj3DDinuvrcuXRex5blhffnLVAF930L_ctwm22RqEylQ-L_LPTBolH8m1ZDW3NL84ja5VpB-5/s1600/3.png" class="card-img-top" alt="Paisagem natural">
-                         <div class="card-body">
-                             <div>
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZrjOUVMuimbHz87edho2J5rWkXeG3lQSxBPC86SoRO5IIKwOTw6re0sxFhwHWv83EYP_V8WXHwQpGNxmo7VOkczhJ0csQAiksryauXflrc3Fxdu0NCRgPj3DDinuvrcuXRex5blhffnLVAF930L_ctwm22RqEylQ-L_LPTBolH8m1ZDW3NL84ja5VpB-5/s1600/3.png" class="card-img-top" alt="Paisagens naturais">
+                        <div class="card-body">
+                            <div>
                                 <h5 class="card-title">Natureza em Foco</h5>
-                                <p class="card-text">Paisagens naturais capturadas em expedições pelo mundo.</p>
+                                <p class="card-text">Paisagens naturais capturadas em expedições pelo mundo, explorando a relação entre luz, água e formas geológicas.</p>
                                 <div>
                                     <span class="badge badge-category">Natureza</span>
                                     <span class="badge badge-category">Paisagem</span>
+                                    <span class="badge badge-category">2020-2022</span>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-primary mt-3">Visualizar Galeria</a>
+                            <a href="#" class="btn btn-primary mt-3">Visualizar Galeria (32 fotos)</a>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-outline-primary btn-lg">Ver Todas as Coleções</a>
+            </div>
         </section>
 
+        <!-- Adult Content Section -->
         <section id="conteudo-adulto" class="content-section">
-            <h2><i class="fas fa-exclamation-triangle"></i>Poemas, Arquivos PDF, Audios</h2>
+            <h2><i class="fas fa-book-open"></i> Poemas & Escritos</h2>
             <div class="alert alert-warning">
-                <strong>Atenção:</strong> Este conteúdo é restrito a maiores de 18 anos.
+                <strong>Atenção:</strong> Alguns conteúdos desta seção são restritos a maiores de 18 anos por abordarem temas sensíveis e linguagem explícita.
             </div>
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <div class="content-card">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZrjOUVMuimbHz87edho2J5rWkXeG3lQSxBPC86SoRO5IIKwOTw6re0sxFhwHWv83EYP_V8WXHwQpGNxmo7VOkczhJ0csQAiksryauXflrc3Fxdu0NCRgPj3DDinuvrcuXRex5blhffnLVAF930L_ctwm22RqEylQ-L_LPTBolH8m1ZDW3NL84ja5VpB-5/s1600/3.png" class="card-img-top" alt="Conteúdo artístico sobre corpo humano">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjZrjOUVMuimbHz87edho2J5rWkXeG3lQSxBPC86SoRO5IIKwOTw6re0sxFhwHWv83EYP_V8WXHwQpGNxmo7VOkczhJ0csQAiksryauXflrc3Fxdu0NCRgPj3DDinuvrcuXRex5blhffnLVAF930L_ctwm22RqEylQ-L_LPTBolH8m1ZDW3NL84ja5VpB-5/s1600/3.png" class="card-img-top" alt="Poema MOSCHIAT">
                         <div class="card-body">
                             <div>
-                                <h5 class="card-title">Série: Corpo e Arte</h5>
-                                <p class="card-text">"MOSCHIAT: entre mundos e códigos"
-
-                                    No ruído do mundo, eu escuto o pulso,
-                                    A batida que nasce entre sonho e impulso.
-                                    Mente elétrica, olhos que dançam,
-                                    Pelas ruas da arte onde ideias se lançam.
-                                    
-                                    Modelando o etéreo em traços e cor,
-                                    Sou alquimista do caos e do amor.
-                                    Entre vértices, delays e loops,
-                                    Construo abismos e pontes em grupos.
-                                    
-                                    Minha câmera é flecha, meu skate é mapa,
-                                    No giro da vida, a alma escapa.
-                                    Blender aberto, FL tocando,
-                                    Cada camada, um universo pulsando.
-                                    
-                                    O Python desenha o que ainda não sei,
-                                    Mas sigo em frente — talvez errei.
-                                    Sou tentativa, sou versão beta,
-                                    Mas a essência é firme, nunca é reta.
-                                    
-                                    Com um pé na arte e outro na ação,
-                                    Busco equilíbrio, busco missão.
-                                    Não me encaixo — transbordo e crio,
-                                    O destino me encontra onde desafio.
-                                    
-                                    Brasil, Itália, México no peito,
-                                    Três bandeiras num mesmo conceito.
-                                    Sou fragmento, sou colagem viva,
-                                    Identidade que nunca se cativa.
-                                    
-                                    E se pulo de projeto em projeto,
-                                    É porque a vida não cabe num teto.
-                                    Sou ponte entre mundos e arquétipos,
-                                    De códigos, afetos e novos léxicos.
-                                    
-                                    Autodidata, intenso, inquieto,
-                                    Amigo do risco, poeta discreto.
-                                    A cada manhã, um novo manifesto:
-                                    Ser quem sou — e fazer disso o resto.</p>
+                                <h5 class="card-title">"MOSCHIAT: entre mundos e códigos"</h5>
+                                <p class="card-text">Poema autobiográfico que explora a dualidade entre arte e tecnologia, identidade e transformação.</p>
+                                <div class="poem-preview">
+                                    <p><em>"No ruído do mundo, eu escuto o pulso,<br>
+                                    A batida que nasce entre sonho e impulso.<br>
+                                    Mente elétrica, olhos que dançam,<br>
+                                    Pelas ruas da arte onde ideias se lançam..."</em></p>
+                                </div>
+                                <div>
+                                    <span class="badge badge-category">Autobiográfico</span>
+                                    <span class="badge badge-category">Arte</span>
+                                    <span class="badge badge-category">2023</span>
+                                </div>
                             </div>
-                            <a href="javascript:void(0);" onclick="alert('Verificação de idade necessária (implementação pendente).')" class="btn btn-warning mt-3">Verificar Idade e Acessar</a>
+                            <button class="btn btn-warning mt-3" onclick="showAgeVerification('poem1')">
+                                <i class="fas fa-lock-open"></i> Ler Poema Completo
+                            </button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 mb-4">
                     <div class="content-card">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhEzJZ4jwEqZqRDDqwR_tmTD5KXQtY5Cq1MrQLeasY7IJEJYpdZ0ZtZIQpEd3gemip8nX1ImElD5SKaAf_eh0VMQ65yc4QQAiL3mpyfNOegV8LpUkx88slj9F51wDe5cv9vVURKZbDQUwV0d7uSArbnr2pFvA5CeKSZjoiRsUFVTk1oclBF8HyZzQlnZdwT/s1600/image_2025-04-13_150504656.png" class="card-img-top" alt="Fotografia conceitual sobre tabus">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhEzJZ4jwEqZqRDDqwR_tmTD5KXQtY5Cq1MrQLeasY7IJEJYpdZ0ZtZIQpEd3gemip8nX1ImElD5SKaAf_eh0VMQ65yc4QQAiL3mpyfNOegV8LpUkx88slj9F51wDe5cv9vVURKZbDQUwV0d7uSArbnr2pFvA5CeKSZjoiRsUFVTk1oclBF8HyZzQlnZdwT/s1600/image_2025-04-13_150504656.png" class="card-img-top" alt="Poema Pulso Errante">
                         <div class="card-body">
-                           <div>
-                                <h5 class="card-title">Documentário: Tabus</h5>
-                                <p class="card-text">"Pulso Errante, Criação Instável"
-
-                                    A ideia veio montada num cavalo de vidro,
-                                    sem freio, sem plano, só rastro e vertigem.
-                                    O tempo derrete nas bordas da mente,
-                                    e cada erro pulsa com gosto de origem.
-                                    
-                                    Pintei o vento com mapas de névoa,
-                                    assinei com pixels o corpo do ar.
-                                    Não busco sentido — sou sede de forma,
-                                    me afogo na cor antes de respirar.
-                                    
-                                    Códigos sussurram em línguas estranhas,
-                                    meus dedos dançam sem me consultar.
-                                    Chamo isso de arte, mas é só combustão,
-                                    intuição em traje de furacão.
-                                    
-                                    Criatividade não pede licença — invade,
-                                    como relâmpago em tela apagada.
-                                    Sou templo do impulso, o tropeço sagrado,
-                                    o flash que rasga a estrada não traçada.
-                                    
-                                    Não me peça método — ofereço miragem.
-                                    Não quero controle — quero passagem.
-                                    Cada obra é um parto sem anestesia,
-                                    um surto que canta sua própria poesia.</p>
-                           </div>
-                            <a href="javascript:void(0);" onclick="alert('Verificação de idade necessária (implementação pendente).')" class="btn btn-warning mt-3">Verificar Idade e Acessar</a>
+                            <div>
+                                <h5 class="card-title">"Pulso Errante, Criação Instável"</h5>
+                                <p class="card-text">Reflexão poética sobre o processo criativo e a natureza fugaz da inspiração artística.</p>
+                                <div class="poem-preview">
+                                    <p><em>"A ideia veio montada num cavalo de vidro,<br>
+                                    sem freio, sem plano, só rastro e vertigem.<br>
+                                    O tempo derrete nas bordas da mente,<br>
+                                    e cada erro pulsa com gosto de origem..."</em></p>
+                                </div>
+                                <div>
+                                    <span class="badge badge-category">Processo Criativo</span>
+                                    <span class="badge badge-category">Experimental</span>
+                                    <span class="badge badge-category">2024</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-warning mt-3" onclick="showAgeVerification('poem2')">
+                                <i class="fas fa-lock-open"></i> Ler Poema Completo
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-outline-secondary">Explorar Todos os Escritos</a>
+            </div>
         </section>
 
+        <!-- Music Section -->
         <section id="musica" class="content-section">
             <h2><i class="fas fa-music"></i> Curadoria Musical</h2>
-             <div class="content-card mb-0"> <div class="card-body">
+            <p class="mb-4">Playlists exclusivas criadas para acompanhar diferentes estados de espírito e momentos criativos.</p>
+            
+            <div class="content-card">
+                <div class="card-body">
                     <h5 class="card-title">Playlists Exclusivas</h5>
-                    <p class="card-text">Acesso a playlists curadas especialmente para membros.</p>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card bg-light h-100"> <div class="card-body d-flex flex-column justify-content-between"> <div>
+                    <p class="card-text">Seleções musicais curadas pessoalmente, atualizadas mensalmente com novas descobertas e clássicos revisitados.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-4 mb-4">
+                            <div class="card bg-light h-100">
+                                <div class="card-body d-flex flex-column">
+                                    <div>
                                         <h6><i class="fas fa-compact-disc"></i> Indie Underground</h6>
-                                        <p>Bandas independentes que você precisa conhecer</p>
+                                        <p>Bandas independentes que você precisa conhecer - 45 faixas</p>
                                     </div>
-                                    
                                     <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/54ZA9LXFvvFujmOVWXpHga?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                                    
-                                    <a href="#" class="btn btn-sm btn-outline-primary mt-2">Ouvir no Spotify</a>
+                                    <div class="mt-auto pt-3">
+                                        <a href="#" class="btn btn-sm btn-outline-primary w-100">Detalhes da Playlist</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-3">
+                        
+                        <div class="col-md-4 mb-4">
                             <div class="card bg-light h-100">
-                                 <div class="card-body d-flex flex-column justify-content-between">
-                                     <div>
-                                         <h6><i class="fas fa-guitar"></i> Rock Clássico</h6>
-                                         <p>Os melhores clássicos remasterizados</p>
-                                         <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/54ZA9LXFvvFujmOVWXpHga?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                                     </div>
-                                     <a href="#" class="btn btn-sm btn-outline-primary mt-2">Ouvir no Spotify</a>
+                                <div class="card-body d-flex flex-column">
+                                    <div>
+                                        <h6><i class="fas fa-guitar"></i> Rock Clássico Revisitado</h6>
+                                        <p>Versões acústicas e releituras de clássicos - 32 faixas</p>
+                                    </div>
+                                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/54ZA9LXFvvFujmOVWXpHga?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                                    <div class="mt-auto pt-3">
+                                        <a href="#" class="btn btn-sm btn-outline-primary w-100">Detalhes da Playlist</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-3">
+                        
+                        <div class="col-md-4 mb-4">
                             <div class="card bg-light h-100">
-                                 <div class="card-body d-flex flex-column justify-content-between">
-                                     <div>
+                                <div class="card-body d-flex flex-column">
+                                    <div>
                                         <h6><i class="fas fa-headphones"></i> Eletrônica Experimental</h6>
-                                        <p>Novas fronteiras da música eletrônica</p>
-                                     </div>
-                                     <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0v7Vbu5Ew3k08cU7DzWfX7?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                                    <a href="#" class="btn btn-sm btn-outline-primary mt-2">Ouvir no Spotify</a>
+                                        <p>Fronteiras sonoras e texturas inovadoras - 28 faixas</p>
+                                    </div>
+                                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0v7Vbu5Ew3k08cU7DzWfX7?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                                    <div class="mt-auto pt-3">
+                                        <a href="#" class="btn btn-sm btn-outline-primary w-100">Detalhes da Playlist</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-outline-primary">Ver Todas as Playlists</a>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Audiovisual Section -->
         <section id="audiovisual" class="content-section">
             <h2><i class="fas fa-video"></i> Projetos Audiovisuais</h2>
+            <p class="mb-4">Documentários, making of e trabalhos experimentais que exploram a intersecção entre imagem e som.</p>
+            
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <div class="content-card">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://youtu.be/LKoAi4k0bxY" title="Documentário Making Of" allowfullscreen></iframe>
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/LKoAi4k0bxY" title="Documentário Making Of" allowfullscreen></iframe>
                         </div>
                         <div class="card-body">
-                           <div>
-                                <h5 class="card-title">Documentário: Por Trás das Câmeras</h5>
-                                <p class="card-text">Making of exclusivo dos principais trabalhos audiovisuais.</p>
-                           </div>
+                            <div>
+                                <h5 class="card-title">Documentário: "Por Trás das Câmeras"</h5>
+                                <p class="card-text">Making of exclusivo dos principais trabalhos fotográficos, revelando técnicas, equipamentos e processos criativos.</p>
+                                <div>
+                                    <span class="badge badge-category">Documentário</span>
+                                    <span class="badge badge-category">Making Of</span>
+                                    <span class="badge badge-category">45 min</span>
+                                </div>
+                            </div>
                             <a href="#" class="btn btn-primary mt-3">Assistir Completo</a>
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-md-6 mb-4">
                     <div class="content-card">
-                        <div class="embed-responsive embed-responsive-16by9">
-                             <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/L_LUpnjgPso" title="Curta Metragem O Olhar" allowfullscreen></iframe>
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/L_LUpnjgPso" title="Curta Metragem O Olhar" allowfullscreen></iframe>
                         </div>
                         <div class="card-body">
                             <div>
                                 <h5 class="card-title">Curta-metragem: "O Olhar"</h5>
-                                <p class="card-text">Premiado curta-metragem sobre percepção visual.</p>
+                                <p class="card-text">Premiado curta-metragem que explora a percepção visual através de técnicas inovadoras de cinematografia.</p>
+                                <div>
+                                    <span class="badge badge-category">Curta-metragem</span>
+                                    <span class="badge badge-category">Experimental</span>
+                                    <span class="badge badge-category">22 min</span>
+                                </div>
                             </div>
                             <a href="#" class="btn btn-primary mt-3">Assistir Completo</a>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-outline-primary">Explorar Todos os Projetos</a>
+            </div>
         </section>
 
+        <!-- Subscription Section -->
         <section id="comprar" class="content-section">
-            <h2><i class="fas fa-shopping-cart"></i> Assinatura Premium</h2>
+            <h2><i class="fas fa-crown"></i> Assinatura Premium</h2>
+            <p class="mb-4">Acesso completo a todo o conteúdo exclusivo, atualizações regulares e benefícios adicionais.</p>
+            
             <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4"> <div class="card text-center h-100">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card pricing-card h-100">
                         <div class="card-header">
                             <h4>Básico</h4>
                         </div>
-                        <div class="card-body d-flex flex-column justify-content-between">
-                           <div>
-                                <h3 class="card-title">R$ 19,90 <small class="text-muted">/mês</small></h3>
-                                <ul class="list-unstyled mt-3 mb-4 text-left pl-4">
-                                    <li><i class="fas fa-check text-success mr-2"></i>Acesso a fotos selecionadas</li>
-                                    <li><i class="fas fa-check text-success mr-2"></i>1 playlist exclusiva</li>
-                                    <li><i class="fas fa-times text-danger mr-2"></i>Poemas</li>
-                                    <li><i class="fas fa-times text-danger mr-2"></i>Vídeos exclusivos</li>
-                                </ul>
-                           </div>
-                            <button class="btn btn-outline-primary btn-block mt-auto">Assinar</button>
+                        <div class="card-body d-flex flex-column">
+                            <div class="price text-primary">R$ 19,90 <small class="text-muted">/mês</small></h3>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li><i class="fas fa-check text-success mr-2"></i> Acesso a fotos selecionadas</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> 1 playlist exclusiva por mês</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> 2 poemas mensais</li>
+                                <li><i class="fas fa-times text-danger mr-2"></i> Vídeos exclusivos</li>
+                                <li><i class="fas fa-times text-danger mr-2"></i> Conteúdo adulto</li>
+                                <li><i class="fas fa-times text-danger mr-2"></i> E-books e PDFs</li>
+                            </ul>
+                            <button class="btn btn-outline-primary btn-block mt-auto">Assinar Plano</button>
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card text-center border-primary h-100 shadow"> <div class="card-header bg-primary text-white">
+                    <div class="card pricing-card border-primary h-100 shadow">
+                        <div class="card-header bg-primary text-white">
                             <h4>Premium <i class="fas fa-star"></i></h4>
+                            <span class="badge bg-white text-primary">Mais Popular</span>
                         </div>
-                        <div class="card-body d-flex flex-column justify-content-between">
-                           <div>
-                                <h3 class="card-title">R$ 39,90 <small class="text-muted">/mês</small></h3>
-                                <ul class="list-unstyled mt-3 mb-4 text-left pl-4">
-                                    <li><i class="fas fa-check text-success mr-2"></i>Acesso completo às fotos</li>
-                                    <li><i class="fas fa-check text-success mr-2"></i>Todas as playlists</li>
-                                    <li><i class="fas fa-check text-success mr-2"></i>Poemas</li>
-                                    <li><i class="fas fa-check text-success mr-2"></i>Vídeos exclusivos</li>
-                                </ul>
-                            </div>
-                            <button class="btn btn-primary btn-block mt-auto">Assinar</button>
+                        <div class="card-body d-flex flex-column">
+                            <div class="price text-primary">R$ 39,90 <small class="text-muted">/mês</small></h3>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li><i class="fas fa-check text-success mr-2"></i> Acesso completo às fotos</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> Todas as playlists</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> Todos os poemas</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> Vídeos exclusivos</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> Conteúdo adulto</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> 1 E-book por mês</li>
+                            </ul>
+                            <button class="btn btn-primary btn-block mt-auto">Assinar Plano</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4"> <div class="card text-center h-100">
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card pricing-card h-100">
                         <div class="card-header">
                             <h4>Anual</h4>
+                            <span class="badge bg-primary text-white">Economize 16%</span>
                         </div>
-                        <div class="card-body d-flex flex-column justify-content-between">
-                           <div>
-                                <h3 class="card-title">R$ 399,90 <small class="text-muted">/ano</small></h3>
-                                <p class="text-success font-weight-bold">Economize 16%</p>
-                                <ul class="list-unstyled mt-3 mb-4 text-left pl-4">
-                                    <li><i class="fas fa-check text-success mr-2"></i>Todos os benefícios Premium</li>
-                                    <li><i class="fas fa-check text-success mr-2"></i>Conteúdo antecipado</li>
-                                    <li><i class="fas fa-check text-success mr-2"></i>E-book exclusivo</li>
-                                    <li><i class="fas fa-check text-success mr-2"></i>Descontos em workshops</li>
-                                </ul>
-                            </div>
-                            <button class="btn btn-outline-primary btn-block mt-auto">Assinar</button>
+                        <div class="card-body d-flex flex-column">
+                            <div class="price text-primary">R$ 399,90 <small class="text-muted">/ano</small></h3>
+                            <p class="text-success fw-bold">Equivalente a R$ 33,32/mês</p>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li><i class="fas fa-check text-success mr-2"></i> Todos os benefícios Premium</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> Conteúdo antecipado</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> 3 E-books exclusivos</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> Descontos em workshops</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> Acesso a comunidade</li>
+                                <li><i class="fas fa-check text-success mr-2"></i> Suporte prioritário</li>
+                            </ul>
+                            <button class="btn btn-outline-primary btn-block mt-auto">Assinar Plano</button>
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="alert alert-info mt-4">
+                <i class="fas fa-info-circle"></i> Todos os planos incluem acesso imediato ao conteúdo existente e atualizações regulares. Cancele quando quiser.
             </div>
         </section>
 
+        <!-- Footer -->
         <footer class="text-center py-4 mt-4 bg-light rounded">
-            <p class="mb-2">© <span id="currentYear"></span> MOSCHIAT 2025 Todos os direitos reservados.</p>
-            <div class="footer-links justify-content-center"> <a href="#"><i class="fas fa-envelope"></i> Contato</a>
+            <div class="mb-3">
+                <a href="#" class="text-decoration-none">
+                    <h3 class="text-primary">MOSCHIAT</h3>
+                </a>
+                <p class="mb-2">Arte • Fotografia • Poesia • Música</p>
+            </div>
+            
+            <div class="footer-links mb-3">
+                <a href="#"><i class="fas fa-envelope"></i> Contato</a>
                 <a href="#"><i class="fas fa-question-circle"></i> Ajuda</a>
                 <a href="#"><i class="fas fa-shield-alt"></i> Privacidade</a>
                 <a href="#"><i class="fas fa-file-alt"></i> Termos</a>
+                <a href="#"><i class="fas fa-user-lock"></i> Acessibilidade</a>
             </div>
+            
+            <div class="social-links mb-3">
+                <a href="#" class="text-decoration-none mx-2"><i class="fab fa-instagram fa-lg"></i></a>
+                <a href="#" class="text-decoration-none mx-2"><i class="fab fa-spotify fa-lg"></i></a>
+                <a href="#" class="text-decoration-none mx-2"><i class="fab fa-youtube fa-lg"></i></a>
+                <a href="#" class="text-decoration-none mx-2"><i class="fab fa-patreon fa-lg"></i></a>
+            </div>
+            
+            <p class="mb-0">© <span id="currentYear"></span> MOSCHIAT. Todos os direitos reservados.</p>
         </footer>
     </div>
 
+    <!-- Back to Top Button -->
     <div class="back-to-top" id="backToTop" aria-label="Voltar ao topo" role="button">
         <i class="fas fa-arrow-up"></i>
     </div>
 
+    <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         // Password check function
         function checkPassword() {
@@ -924,7 +1149,7 @@
             if (password === '123') {
                 // Correct password
                 errorElement.style.display = 'none';
-                passwordInput.removeAttribute('aria-invalid'); // Remove invalid state if previously set
+                passwordInput.removeAttribute('aria-invalid');
 
                 var overlay = document.getElementById('password-overlay');
                 overlay.style.opacity = '0';
@@ -935,37 +1160,34 @@
                     var mainContent = document.getElementById('main-content');
                     mainContent.style.display = 'block';
 
-                    // Short delay before adding 'show' for fade-in transition
                     setTimeout(function() {
                         mainContent.classList.add('show');
-                        // Set focus on first heading for screen readers AFTER content is visible
                         if (mainContentH1) {
-                             // tabindex was added in HTML, no need to set it here
-                             mainContentH1.focus();
+                            mainContentH1.focus();
                         }
-                    }, 50); // Small delay allows display:block to render first
+                    }, 50);
 
-                }, 500); // Matches CSS transition duration
+                }, 500);
 
             } else if (password === '321') {
                 // Redirect password
                 window.location.href = 'https://moschiat.com/it';
             } else {
                 // Wrong password
-                errorElement.style.display = 'block';
-                passwordInput.setAttribute('aria-invalid', 'true'); // Mark input as invalid
-                passwordInput.focus(); // Set focus back to the input
-                passwordInput.select(); // Select text for easy correction
+                errorElement.style.display = 'flex';
+                passwordInput.setAttribute('aria-invalid', 'true');
+                passwordInput.focus();
+                passwordInput.select();
             }
         }
 
         // Image slider
         var slideIndex = 0;
-        var slideInterval; // Store interval ID
+        var slideInterval;
         var slides = document.querySelectorAll('.img-container img');
 
         function showSlides() {
-             if (slides.length === 0) return; // No images
+            if (slides.length === 0) return;
 
             for (var i = 0; i < slides.length; i++) {
                 slides[i].classList.remove('active');
@@ -977,16 +1199,16 @@
 
         function startSlideshow() {
             if (slides.length > 1) {
-                 stopSlideshow(); // Clear any existing interval
-                 showSlides(); // Show first slide immediately
-                 slideInterval = setInterval(showSlides, 3000); // Change image every 3 seconds
+                stopSlideshow();
+                showSlides();
+                slideInterval = setInterval(showSlides, 3000);
             } else if (slides.length === 1) {
-                 slides[0].classList.add('active'); // Show the single image
+                slides[0].classList.add('active');
             }
         }
 
         function stopSlideshow() {
-             clearInterval(slideInterval);
+            clearInterval(slideInterval);
         }
 
         // Back to top button
@@ -1006,30 +1228,66 @@
             });
         });
 
-        // Update footer year dynamically
+        // Update footer year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Initial Setup on Load
-        window.addEventListener('load', function() {
-            // Focus on password field
-            document.getElementById('password').focus();
-            // Start the slideshow
-            startSlideshow();
-        });
+        // Age verification functions
+        function showAgeVerification(contentId) {
+            document.getElementById('ageVerification').style.display = 'flex';
+            document.getElementById('ageVerification').setAttribute('data-content', contentId);
+        }
 
-         // Stop slideshow if overlay is hidden (password entered correctly)
-         // Using MutationObserver is more robust than relying on checkPassword function call
-         var overlayObserver = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.attributeName === 'style' && document.getElementById('password-overlay').style.display === 'none') {
-                    stopSlideshow();
-                     overlayObserver.disconnect(); // Stop observing once hidden
-                 }
+        function verifyAge(isAdult) {
+            var ageVerification = document.getElementById('ageVerification');
+            var contentId = ageVerification.getAttribute('data-content');
+            
+            ageVerification.style.display = 'none';
+            
+            if (isAdult) {
+                // In a real implementation, you might set a cookie or session storage
+                alert('Verificação de idade confirmada. Redirecionando para o conteúdo...');
+                // Here you would actually show the content instead of alert
+            } else {
+                alert('Você será redirecionado para a página inicial.');
+                window.location.href = '#';
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('load', function() {
+            document.getElementById('password').focus();
+            startSlideshow();
+            
+            // Stop slideshow when overlay is hidden
+            var overlayObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'style' && 
+                        document.getElementById('password-overlay').style.display === 'none') {
+                        stopSlideshow();
+                        overlayObserver.disconnect();
+                    }
+                });
+            });
+            overlayObserver.observe(document.getElementById('password-overlay'), { 
+                attributes: true 
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             });
         });
-         overlayObserver.observe(document.getElementById('password-overlay'), { attributes: true });
-
-
     </script>
 </body>
 </html>
